@@ -19,7 +19,17 @@
           <input type="password" name="password" value="password123" required>
         </label>
 
-        <a href="{{ forgotPasswordLink }}">Forgot Your Password?</a>
+        <div>
+          <a href="{{ forgotPasswordLink }}">Forgot Your Password?</a>
+        </div>
+
+        <div>
+          <a href="{{ googleOAuthUrl }}">Log in with Google</a>
+        </div>
+
+        <div>
+          <a href="{{ sramOAuthUrl }}">Log in with SRAM</a>
+        </div>
 
         <div>
           <button type="submit" class="button">Login</button>

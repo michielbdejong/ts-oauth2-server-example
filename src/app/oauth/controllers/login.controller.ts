@@ -44,6 +44,8 @@ export class LoginController {
       csrfToken: req.csrfToken(),
       loginFormAction: "#",
       forgotPasswordLink: "#",
+      googleOAuthUrl: "https://google.com",
+      sramOAuthUrl: "https://sram.surf.nl",
     };
   }
 
