@@ -52,51 +52,51 @@ export class OidcController {
     // const email = tokenSet.claims().email;
     const email = userinfo.email;
     console.log('looking up email in db', email);
-    if (tokenSet.claims().email_verified === true) {
-      let user: User;
+    // if (tokenSet.claims().email_verified === true) {
+    let user: User;
 
-      try {
-        user = await this.prisma.user.findFirstOrThrow({
-          where: {
-            email: {
-              equals: email,
-              mode: "insensitive",
-            },
+    try {
+      user = await this.prisma.user.findFirstOrThrow({
+        where: {
+          email: {
+            equals: email,
+            mode: "insensitive",
           },
-        });
-      } catch (e) {
-        console.log('error looking up email in db', e.message);
-        throw new UnauthorizedException(null, { cause: e });
-      }
-      console.log('setting user login status in db', user.id);
-      user = await this.prisma.user.update({
-        where: { id: user.id },
-        data: {
-          lastLoginAt: new Date(),
-          lastLoginIP: req.ip,
         },
       });
-
-      const expiresAt = new DateDuration("30d");
-
-      const token = await this.jwt.sign({
-        userId: user.id,
-        email: user.email,
-
-        iat: Math.floor(Date.now() / 1000),
-        exp: expiresAt.endTimeSeconds,
-      });
-
-      console.log('setting jwt in cookie', token);
-      res.cookie("jid", token, {
-        secure: true,
-        httpOnly: true,
-        sameSite: "strict",
-        expires: expiresAt.endDate,
-      });
-
-      // res.status(HttpStatus.FOUND).redirect(`/`);
-      res.status(HttpStatus.OK);
+    } catch (e) {
+      console.log('error looking up email in db', e.message);
+      throw new UnauthorizedException(null, { cause: e });
     }
+    console.log('setting user login status in db', user.id);
+    user = await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        lastLoginAt: new Date(),
+        lastLoginIP: req.ip,
+      },
+    });
+
+    const expiresAt = new DateDuration("30d");
+
+    const token = await this.jwt.sign({
+      userId: user.id,
+      email: user.email,
+
+      iat: Math.floor(Date.now() / 1000),
+      exp: expiresAt.endTimeSeconds,
+    });
+
+    console.log('setting jwt in cookie', token);
+    res.cookie("jid", token, {
+      secure: true,
+      httpOnly: true,
+      sameSite: "strict",
+      expires: expiresAt.endDate,
+    });
+
+    // res.status(HttpStatus.FOUND).redirect(`/`);
+    res.status(HttpStatus.OK);
+    // }
   }
 }
