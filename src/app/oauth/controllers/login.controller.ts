@@ -63,17 +63,47 @@ export class LoginController {
     });
   }
 
+  private async generateSramOAuthUrl(): Promise<string> {
+    const code_verifier = generators.codeVerifier();
+    // store the code_verifier in your framework's session mechanism, if it is a cookie based solution
+    // it should be httpOnly (not readable by javascript) and encrypted.
+
+    const sramIssuer = await Issuer.discover('hhttps://proxy.sram.surf.nl/');
+    console.log('Discovered issuer %s %O', sramIssuer.issuer, sramIssuer.metadata, code_verifier);
+
+    const client = new sramIssuer.Client({
+        client_id: 'APP-CD00A924-E614-4588-8607-EF7D4D55EAAB',
+        client_secret: process.env.SRAM_CLIENT_SECRET,
+        redirect_uris: ['https://sram-auth-poc.pondersource.net/login-callback.html'],
+        response_types: ['code'],
+        // id_token_signed_response_alg (default "RS256")
+        // token_endpoint_auth_method (default "client_secret_basic")
+      }); // => Client
+
+    const code_challenge = generators.codeChallenge(code_verifier);
+
+    return client.authorizationUrl({
+      scope: 'openid email profile',
+      resource: 'https://sram-auth-poc.pondersource.net',
+      code_challenge,
+      code_challenge_method: 'S256',
+    });
+  }
+
+  
+
   @Get()
   @Render("login")
   async index(@Req() req: Request, @Res() res: Response) {
     await this.oauth.validateAuthorizationRequest(requestFromExpress(req));
     const googleOAuthUrl = await this.generateGoogleOAuthUrl();
+    const sramOAuthUrl = await this.generateSramOAuthUrl();
     return {
       csrfToken: req.csrfToken(),
       loginFormAction: "#",
       forgotPasswordLink: "#",
       googleOAuthUrl,
-      sramOAuthUrl: "https://sram.surf.nl",
+      sramOAuthUrl,
     };
   }
 
