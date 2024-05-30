@@ -74,11 +74,12 @@ export class LoginController {
 
     const code_challenge = generators.codeChallenge(code_verifier);
 
-    return client.authorizationUrl({
-      scope: `openid profile email ` +
-        `eduperson_assurance eduperson_entitlement eduperson_orcid eduperson_principal_name eduperson_scoped_affiliation ` +
-        `voperson_external_affiliation voperson_external_id voperson_id ` +
-        `aarc ssh_public_key orcid uid`,
+    return client.authorizationUrl({ 
+      scope: 'openid email profile',
+      // scope: `openid profile email ` +
+      //   `eduperson_assurance eduperson_entitlement eduperson_orcid eduperson_principal_name eduperson_scoped_affiliation ` +
+      //   `voperson_external_affiliation voperson_external_id voperson_id ` +
+      //   `aarc ssh_public_key orcid uid`,
       resource: 'https://sram-auth-poc.pondersource.net',
       code_challenge,
       code_challenge_method: 'S256',
