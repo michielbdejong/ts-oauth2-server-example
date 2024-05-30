@@ -36,10 +36,7 @@ export class LoginController {
     private readonly prisma: PrismaService,
   ) {}
 
-  private async generateGoogleOAuthUrl(): Promise<string> {
-    const code_verifier = generators.codeVerifier();
-    // store the code_verifier in your framework's session mechanism, if it is a cookie based solution
-    // it should be httpOnly (not readable by javascript) and encrypted.
+  private async generateGoogleOAuthUrl(code_verifier: string): Promise<string> {
 
     const googleIssuer = await Issuer.discover('https://accounts.google.com');
     console.log('Discovered issuer %s %O', googleIssuer.issuer, googleIssuer.metadata, code_verifier);
@@ -63,11 +60,7 @@ export class LoginController {
     });
   }
 
-  private async generateSramOAuthUrl(): Promise<string> {
-    const code_verifier = generators.codeVerifier();
-    // store the code_verifier in your framework's session mechanism, if it is a cookie based solution
-    // it should be httpOnly (not readable by javascript) and encrypted.
-
+  private async generateSramOAuthUrl(code_verifier: string): Promise<string> {
     const sramIssuer = await Issuer.discover('https://proxy.sram.surf.nl/');
     console.log('Discovered issuer %s %O', sramIssuer.issuer, sramIssuer.metadata, code_verifier);
 
@@ -97,10 +90,19 @@ export class LoginController {
   @Render("login")
   async index(@Req() req: Request, @Res() res: Response) {
     await this.oauth.validateAuthorizationRequest(requestFromExpress(req));
+    const code_verifier = generators.codeVerifier();
+    console.log('storing code_verifier in cookie!', code_verifier);
+    const expiresAt = new DateDuration("1h");
+    res.cookie("code_verifier", code_verifier, {
+      secure: true,
+      httpOnly: true,
+      sameSite: "strict",
+      expires: expiresAt.endDate,
+    });
     console.log("Getting Google OIDC URL");
-    const googleOAuthUrl = await this.generateGoogleOAuthUrl();
+    const googleOAuthUrl = await this.generateGoogleOAuthUrl(code_verifier);
     console.log("Getting SRAM OIDC URL");
-    const sramOAuthUrl = await this.generateSramOAuthUrl();
+    const sramOAuthUrl = await this.generateSramOAuthUrl(code_verifier);
     console.log("Done getting OIDC URLs");
     return {
       csrfToken: req.csrfToken(),

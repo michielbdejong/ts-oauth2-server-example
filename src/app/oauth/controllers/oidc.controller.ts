@@ -17,7 +17,8 @@ export class OidcController {
   @Get()
   @Render("oidc")
   async index(@Req() req: Request, @Res() res: Response) {
-    const code_verifier = generators.codeVerifier();
+    const code_verifier = req.cookies.code_verifier;
+    console.log('Retrieved code_verifier from cookie!', code_verifier);
     const googleIssuer = await Issuer.discover('https://accounts.google.com');
     console.log('Discovered issuer %s %O', googleIssuer.issuer, googleIssuer.metadata, code_verifier);
 
