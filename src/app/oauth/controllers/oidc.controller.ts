@@ -49,7 +49,8 @@ export class OidcController {
     console.log('validated ID Token claims %j', tokenSet.claims());
     const userinfo = await client.userinfo(tokenSet.access_token);
     console.log('userinfo %j', userinfo);
-    const email = tokenSet.claims().email;
+    // const email = tokenSet.claims().email;
+    const email = userinfo.email;
     console.log('looking up email in db', email);
     if (tokenSet.claims().email_verified === true) {
       let user: User;
