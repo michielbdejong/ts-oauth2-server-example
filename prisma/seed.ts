@@ -8,13 +8,25 @@ const prisma = new PrismaClient({
 void (async function () {
   const passwordHash = await bcryptjs.hash("password123", 10);
 
-  const michielId = "dd74961a-c348-4471-98a5-19fc3c5b5079";
-  const jason = await prisma.user.upsert({
-    where: { id: michielId },
+  const idAtGoogle = "dd74961a-c348-4471-98a5-19fc3c5b5079";
+  const michielGoogle = await prisma.user.upsert({
+    where: { id: idAtGoogle },
     update: { passwordHash },
     create: {
-      id: michielId,
+      id: idAtGoogle,
       email: "michiel@unhosted.org",
+      createdIP: "127.0.0.1",
+      passwordHash,
+    },
+  });
+
+  const idAtSurf = "4a9f2486-d3cb-45dd-b639-1303caaab688";
+  const michielSurf = await prisma.user.upsert({
+    where: { id: idAtSurf },
+    update: { passwordHash },
+    create: {
+      id: idAtSurf,
+      email: "michiel.dejong@surf.nl",
       createdIP: "127.0.0.1",
       passwordHash,
     },
