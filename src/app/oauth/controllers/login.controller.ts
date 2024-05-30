@@ -45,13 +45,13 @@ export class LoginController {
     console.log('Discovered issuer %s %O', googleIssuer.issuer, googleIssuer.metadata, code_verifier);
 
     const client = new googleIssuer.Client({
-        client_id: '994014261189-c2us07d24s52v1dhrsl8fkja36rhbgif.apps.googleusercontent.com',
-        client_secret: process.env.GOOGLE_CLIENT_SECRET,
-        redirect_uris: ['https://sram-auth-poc.pondersource.net/login-callback.html'],
-        response_types: ['code'],
-        // id_token_signed_response_alg (default "RS256")
-        // token_endpoint_auth_method (default "client_secret_basic")
-      }); // => Client
+      client_id: '994014261189-c2us07d24s52v1dhrsl8fkja36rhbgif.apps.googleusercontent.com',
+      client_secret: process.env.GOOGLE_CLIENT_SECRET,
+      redirect_uris: ['https://sram-auth-poc.pondersource.net/login-callback.html'],
+      response_types: ['code'],
+      // id_token_signed_response_alg (default "RS256")
+      // token_endpoint_auth_method (default "client_secret_basic")
+    }); // => Client
 
     const code_challenge = generators.codeChallenge(code_verifier);
 
@@ -72,13 +72,13 @@ export class LoginController {
     console.log('Discovered issuer %s %O', sramIssuer.issuer, sramIssuer.metadata, code_verifier);
 
     const client = new sramIssuer.Client({
-        client_id: 'APP-CD00A924-E614-4588-8607-EF7D4D55EAAB',
-        client_secret: process.env.SRAM_CLIENT_SECRET,
-        redirect_uris: ['https://sram-auth-poc.pondersource.net/login-callback.html'],
-        response_types: ['code'],
-        // id_token_signed_response_alg (default "RS256")
-        // token_endpoint_auth_method (default "client_secret_basic")
-      }); // => Client
+      client_id: 'APP-CD00A924-E614-4588-8607-EF7D4D55EAAB',
+      client_secret: process.env.SRAM_CLIENT_SECRET,
+      redirect_uris: ['https://sram-auth-poc.pondersource.net/login-callback.html'],
+      response_types: ['code'],
+      // id_token_signed_response_alg (default "RS256")
+      // token_endpoint_auth_method (default "client_secret_basic")
+    }); // => Client
 
     const code_challenge = generators.codeChallenge(code_verifier);
 
