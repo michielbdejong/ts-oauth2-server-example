@@ -50,6 +50,7 @@ export class OidcController {
     const userinfo = await client.userinfo(tokenSet.access_token);
     console.log('userinfo %j', userinfo);
     const email = tokenSet.claims().email;
+    console.log('looking up email in db', email);
     if (tokenSet.claims().email_verified === true) {
       let user: User;
 
@@ -63,9 +64,10 @@ export class OidcController {
           },
         });
       } catch (e) {
+        console.log('error looking up email in db', e.message);
         throw new UnauthorizedException(null, { cause: e });
       }
-
+      console.log('setting user login status in db', user.id);
       user = await this.prisma.user.update({
         where: { id: user.id },
         data: {
@@ -84,6 +86,7 @@ export class OidcController {
         exp: expiresAt.endTimeSeconds,
       });
 
+      console.log('setting jwt in cookie', token);
       res.cookie("jid", token, {
         secure: true,
         httpOnly: true,
