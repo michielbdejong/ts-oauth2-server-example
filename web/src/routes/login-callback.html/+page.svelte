@@ -6,7 +6,7 @@
   
   onMount(async () => {
     await handleRedirectCallback();
-    goto('/');
+    // goto('/');
   });
 </script>
   
