@@ -11,6 +11,7 @@ import { CurrentUserMiddleware } from "../current_user.middleware.js";
 import { csrf } from "../../lib/csrf.js";
 import { ScopesController } from "./controllers/scopes.controller.js";
 import { OidcController } from "./controllers/oidc.controller.js";
+import { RegisterController } from "./controllers/register.controller.js";
 
 @Module({
   imports: [PrismaModule],
@@ -20,7 +21,8 @@ import { OidcController } from "./controllers/oidc.controller.js";
     ScopesController,
     TokenController,
     LoginController,
-    OidcController
+    OidcController,
+    RegisterController,
   ],
   providers: [
     MyCustomJwtService.register("super-secret"),

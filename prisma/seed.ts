@@ -33,6 +33,19 @@ void (async function () {
     },
   });
 
+  const clientId2 = "9aeb7ebf-09e9-4e96-88a7-b3cf9f9739a2";
+  const client2 = await prisma.oAuthClient.upsert({
+    where: { id: clientId },
+    update: {},
+    create: {
+      id: clientId,
+      name: "WebDAV Mounter",
+      secret: null,
+      allowedGrants: ["authorization_code", "client_credentials", "refresh_token"],
+      redirectUris: ["http://sram-auth-poc.pondersource.net/callback"],
+    },
+  });
+
   const scopeId = "c3d49dba-53c8-4d08-970f-9c567414732e";
   const scope = await prisma.oAuthScope.upsert({
     where: { id: scopeId },
