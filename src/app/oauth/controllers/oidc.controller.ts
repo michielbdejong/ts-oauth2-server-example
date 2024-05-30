@@ -31,7 +31,8 @@ export class OidcController {
     }); // => Client
 
     const params = client.callbackParams(req);
-    const tokenSet = await client.callback('https://client.example.com/callback', params, { code_verifier });
+    console.log(params);
+    const tokenSet = await client.callback('https://sram-auth-poc.pondersource.net/login-callback.html', params, { code_verifier });
     console.log('received and validated tokens %j', tokenSet);
     console.log('validated ID Token claims %j', tokenSet.claims());
   }
