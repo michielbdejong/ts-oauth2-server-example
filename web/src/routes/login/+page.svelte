@@ -3,7 +3,7 @@
   import { CALLBACK_URL, CLIENT_ID, createAuth } from "$lib/auth";
   import { SESSION_STORAGE } from "$lib/browser_storage";
 
-  const url = new URL("https://sram-oauth-poc.pondersource.net/api/oauth2/authorize");
+  const url = new URL("https://sram-auth-poc.pondersource.net/api/oauth2/authorize");
 
   onMount(async () => {
     const { state, verifier, challenge } = await createAuth();

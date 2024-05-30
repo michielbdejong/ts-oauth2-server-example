@@ -2,7 +2,7 @@ import { base64urlencode } from "$lib/base64";
 import { genRandomString } from "$lib/random";
 
 export const CLIENT_ID = "0e2ec2df-ee53-4327-a472-9d78c278bdbb";
-export const CALLBACK_URL = "https://sram-oauth-poc.pondersource.net/callback";
+export const CALLBACK_URL = "https://sram-auth-poc.pondersource.net/callback";
 
 function sha256(plain: string): Promise<ArrayBuffer> {
   // returns promise ArrayBuffer

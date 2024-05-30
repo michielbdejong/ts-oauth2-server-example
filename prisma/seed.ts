@@ -29,7 +29,7 @@ void (async function () {
       name: "Sample Client",
       secret: null,
       allowedGrants: ["authorization_code", "client_credentials", "refresh_token"],
-      redirectUris: ["https://sram-oauth-poc.pondersource.net/callback"],
+      redirectUris: ["https://sram-auth-poc.pondersource.net/callback"],
     },
   });
 

@@ -40,7 +40,7 @@ async function bootstrap() {
 
   await app.listen(3000);
 
-  console.log(`Sample Login: https://sram-oauth-poc.pondersource.net/`);
+  console.log(`Sample Login: https://sram-auth-poc.pondersource.net/`);
 }
 
 bootstrap().then().catch(console.error);
