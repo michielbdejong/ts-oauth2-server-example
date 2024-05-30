@@ -14,6 +14,8 @@ import { MyCustomJwtService } from "../services/custom_jwt_service.js";
 import { User } from "@prisma/client";
 import { DateDuration } from "@jmondi/date-duration";
 
+const GOOGLE=false;
+
 @Controller("oidc")
 export class OidcController {
   constructor(
@@ -25,17 +27,20 @@ export class OidcController {
   async index(@Req() req: Request, @Res() res: Response) {
     const code_verifier = req.cookies.code_verifier;
     console.log('Retrieved code_verifier from cookie!', code_verifier);
-    const googleIssuer = await Issuer.discover('https://accounts.google.com');
-    console.log('Discovered issuer %s %O', googleIssuer.issuer, googleIssuer.metadata, code_verifier);
+    const issuer = await Issuer.discover(GOOGLE ? 'https://accounts.google.com' : 'https://proxy.sram.surf.nl');
+    console.log('Discovered issuer %s %O', issuer.issuer, issuer.metadata, code_verifier);
 
-    const client = new googleIssuer.Client({
+    const client = new issuer.Client(GOOGLE ? {
       client_id: '994014261189-c2us07d24s52v1dhrsl8fkja36rhbgif.apps.googleusercontent.com',
       client_secret: process.env.GOOGLE_CLIENT_SECRET,
       redirect_uris: ['https://sram-auth-poc.pondersource.net/login-callback.html'],
       response_types: ['code'],
-      // id_token_signed_response_alg (default "RS256")
-      // token_endpoint_auth_method (default "client_secret_basic")
-    }); // => Client
+    } : {
+      client_id: 'APP-CD00A924-E614-4588-8607-EF7D4D55EAAB',
+      client_secret: process.env.SRAM_CLIENT_SECRET,
+      redirect_uris: ['https://sram-auth-poc.pondersource.net/login-callback.html'],
+      response_types: ['code'],
+    });
 
     const params = client.callbackParams(req);
     console.log(params);
