@@ -68,7 +68,7 @@ export class LoginController {
     // store the code_verifier in your framework's session mechanism, if it is a cookie based solution
     // it should be httpOnly (not readable by javascript) and encrypted.
 
-    const sramIssuer = await Issuer.discover('hhttps://proxy.sram.surf.nl/');
+    const sramIssuer = await Issuer.discover('https://proxy.sram.surf.nl/');
     console.log('Discovered issuer %s %O', sramIssuer.issuer, sramIssuer.metadata, code_verifier);
 
     const client = new sramIssuer.Client({
