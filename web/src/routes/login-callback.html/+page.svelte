@@ -1,14 +1,13 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { goto } from '$app/navigation';
-  import { get } from 'svelte/store';
-  import { handleRedirectCallback } from '$lib/oidc';
-  
+  import { onMount } from "svelte";
+
+  const url = new URL("https://sram-auth-poc.pondersource.net/api/login");
+
   onMount(async () => {
-    await handleRedirectCallback();
-    // goto('/');
+    window.location.replace(url + window.location.search);
   });
 </script>
-  
-  Welcome back from the OIDC provider!
-  
+
+Redirecting to login...
+
+<a href={url}>{url}</a>
