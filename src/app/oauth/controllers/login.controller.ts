@@ -37,7 +37,6 @@ export class LoginController {
   ) {}
 
   private async generateGoogleOAuthUrl(code_verifier: string): Promise<string> {
-
     const googleIssuer = await Issuer.discover('https://accounts.google.com');
     console.log('Discovered issuer %s %O', googleIssuer.issuer, googleIssuer.metadata, code_verifier);
 
@@ -91,6 +90,12 @@ export class LoginController {
   async index(@Req() req: Request, @Res() res: Response) {
     await this.oauth.validateAuthorizationRequest(requestFromExpress(req));
     const code_verifier = generators.codeVerifier();
+    console.log('generated code_verifier', code_verifier);
+    console.log("Getting Google OIDC URL");
+    const googleOAuthUrl = await this.generateGoogleOAuthUrl(code_verifier);
+    console.log("Getting SRAM OIDC URL");
+    const sramOAuthUrl = await this.generateSramOAuthUrl(code_verifier);
+    console.log("Done getting OIDC URLs");
     console.log('storing code_verifier in cookie!', code_verifier);
     const expiresAt = new DateDuration("1h");
     res.cookie("code_verifier", code_verifier, {
@@ -99,11 +104,7 @@ export class LoginController {
       sameSite: "strict",
       expires: expiresAt.endDate,
     });
-    console.log("Getting Google OIDC URL");
-    const googleOAuthUrl = await this.generateGoogleOAuthUrl(code_verifier);
-    console.log("Getting SRAM OIDC URL");
-    const sramOAuthUrl = await this.generateSramOAuthUrl(code_verifier);
-    console.log("Done getting OIDC URLs");
+
     return {
       csrfToken: req.csrfToken(),
       loginFormAction: "#",

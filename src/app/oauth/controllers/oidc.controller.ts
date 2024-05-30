@@ -23,7 +23,6 @@ export class OidcController {
   ) {}
 
   @Get()
-  @Render("oidc")
   async index(@Req() req: Request, @Res() res: Response) {
     const code_verifier = req.cookies.code_verifier;
     console.log('Retrieved code_verifier from cookie!', code_verifier);
