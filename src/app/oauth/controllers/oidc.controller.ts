@@ -95,8 +95,8 @@ export class OidcController {
       expires: expiresAt.endDate,
     });
 
-    // res.status(HttpStatus.FOUND).redirect(`/`);
-    res.status(HttpStatus.OK);
+    res.status(HttpStatus.FOUND).redirect(`/`);
+    // res.status(HttpStatus.OK);
     // }
   }
 }
