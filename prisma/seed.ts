@@ -8,13 +8,13 @@ const prisma = new PrismaClient({
 void (async function () {
   const passwordHash = await bcryptjs.hash("password123", 10);
 
-  const jasonId = "dd74961a-c348-4471-98a5-19fc3c5b5079";
+  const michielId = "dd74961a-c348-4471-98a5-19fc3c5b5079";
   const jason = await prisma.user.upsert({
-    where: { id: jasonId },
+    where: { id: michielId },
     update: { passwordHash },
     create: {
-      id: jasonId,
-      email: "jason@example.com",
+      id: michielId,
+      email: "michiel@unhosted.org",
       createdIP: "127.0.0.1",
       passwordHash,
     },
