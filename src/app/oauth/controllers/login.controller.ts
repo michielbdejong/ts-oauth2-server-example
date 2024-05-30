@@ -93,14 +93,15 @@ export class LoginController {
     });
   }
 
-  
-
   @Get()
   @Render("login")
   async index(@Req() req: Request, @Res() res: Response) {
     await this.oauth.validateAuthorizationRequest(requestFromExpress(req));
+    console.log("Getting Google OIDC URL");
     const googleOAuthUrl = await this.generateGoogleOAuthUrl();
+    console.log("Getting SRAM OIDC URL");
     const sramOAuthUrl = await this.generateSramOAuthUrl();
+    console.log("Done getting OIDC URLs");
     return {
       csrfToken: req.csrfToken(),
       loginFormAction: "#",
