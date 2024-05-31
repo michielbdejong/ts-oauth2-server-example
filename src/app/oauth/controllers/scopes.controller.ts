@@ -52,8 +52,8 @@ export class ScopesController {
     const scopes = body.accept.split(" ");
     console.log("Updating ticket", clientId, ticket, scopes);
     updateTicket(clientId, ticket, scopes);
-
+    console.log('updating ticket, now redirecting to result controller');
     const [_, query] = req.url.split("?");
-    res.status(HttpStatus.FOUND).redirect(`/api/front?${query}`);
+    res.status(HttpStatus.FOUND).redirect(`/api/result?${query}`);
   }
 }
