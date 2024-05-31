@@ -95,8 +95,8 @@ export class OidcController {
       expires: expiresAt.endDate,
     });
 
+    const [_, queryStr] = req.url.split("?");
     res.status(HttpStatus.FOUND).redirect(`/`);
-    // res.status(HttpStatus.OK);
-    // }
+    res.status(302).redirect(`/api/front?${queryStr}`);
   }
 }
