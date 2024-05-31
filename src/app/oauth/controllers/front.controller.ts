@@ -42,6 +42,11 @@ export class FrontController {
         return;
       }
 
+      if (!req.query.resource) {
+        res.status(302).redirect(`https://research-drive-poc.pondersource.net/index.php/apps/tokenbaseddav`);
+        return;
+      }
+
       // Redirect the user to scopes if they have not reviewed the client's authorization request yet.
       // TODO: add ticket support to scopes endpoint
       if (typeof req.cookies.accept !== "string") {
