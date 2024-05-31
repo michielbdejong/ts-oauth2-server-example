@@ -32,7 +32,7 @@ export class ScopesController {
   @Get()
   @Render("scopes")
   async index(@Req() req: Request, @Res() res: Response) {
-    await this.oauth.validateAuthorizationRequest(requestFromExpress(req));
+    // await this.oauth.validateAuthorizationRequest(requestFromExpress(req));
 
     return {
       csrfToken: req.csrfToken(),
