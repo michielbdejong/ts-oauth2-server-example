@@ -96,7 +96,6 @@ export class OidcController {
     });
 
     const [_, queryStr] = req.url.split("?");
-    res.status(HttpStatus.FOUND).redirect(`/`);
     res.status(302).redirect(`/api/front?${queryStr}`);
   }
 }
