@@ -13,6 +13,8 @@ import { ScopesController } from "./controllers/scopes.controller.js";
 import { OidcController } from "./controllers/oidc.controller.js";
 import { RegisterController } from "./controllers/register.controller.js";
 import { TicketController } from "./controllers/ticket.controller.js";
+import { FrontController } from "./controllers/front.controller.js";
+import { ResultController } from "./controllers/result.controller.js";
 
 @Module({
   imports: [PrismaModule],
@@ -25,6 +27,8 @@ import { TicketController } from "./controllers/ticket.controller.js";
     OidcController,
     RegisterController,
     TicketController,
+    FrontController,
+    ResultController,
   ],
   providers: [
     MyCustomJwtService.register("super-secret"),
