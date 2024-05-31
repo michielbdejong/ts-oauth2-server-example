@@ -16,6 +16,7 @@ import { AuthorizationServerService } from "../services/authorization_server.ser
 import { PrismaService } from "../../prisma/prisma.service.js";
 import { MyCustomJwtService } from "../services/custom_jwt_service.js";
 import { DateDuration } from "@jmondi/date-duration";
+import { updateTicket } from "../services/tickets.service.js";
 
 export class ScopesBody {
   accept: string;
@@ -46,14 +47,13 @@ export class ScopesController {
     @Res({ passthrough: true }) res: Response,
     @Body() body: ScopesBody,
   ) {
-    const expiresAt = new DateDuration("1d");
-    res.cookie("accept", body.accept, {
-      secure: true,
-      httpOnly: true,
-      sameSite: "strict",
-      expires: expiresAt.endDate,
-    });
+    const clientId = req.query.client_id as string;
+    const ticket = req.query.ticket as string;
+    const scopes = body.accept.split(" ");
+    console.log("Updating ticket", clientId, ticket, scopes);
+    updateTicket(clientId, ticket, scopes);
+
     const [_, query] = req.url.split("?");
-    res.status(HttpStatus.FOUND).redirect(`/api/oauth2/authorize?${query}`);
+    res.status(HttpStatus.FOUND).redirect(`/api/front?${query}`);
   }
 }
