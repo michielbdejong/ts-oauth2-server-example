@@ -6,7 +6,7 @@ import {
   HttpStatus,
   UnauthorizedException,
 } from "@nestjs/common";
-import type { Response, Request } from "express";
+import { type Response, type Request, query } from "express";
 import { PrismaService } from "../../prisma/prisma.service.js";
 import { Issuer, generators } from 'openid-client';
 import { MyCustomJwtService } from "../services/custom_jwt_service.js";
@@ -95,7 +95,13 @@ export class OidcController {
       expires: expiresAt.endDate,
     });
 
-    const [_, queryStr] = req.url.split("?");
+    const state = req.query.state;
+    console.log('state coming back from SRAM', state);
+    let queryStr = '';
+    if (typeof state === 'string') {
+      const [clientId, ticket] = state.split(':');
+      queryStr = `client_id=${encodeURIComponent(clientId)}&ticket=${encodeURIComponent(ticket)}`;
+    }
     res.status(302).redirect(`/api/front?${queryStr}`);
   }
 }

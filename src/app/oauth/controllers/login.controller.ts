@@ -59,7 +59,7 @@ export class LoginController {
     });
   }
 
-  private async generateSramOAuthUrl(code_verifier: string): Promise<string> {
+  private async generateSramOAuthUrl(code_verifier: string, state: string): Promise<string> {
     const sramIssuer = await Issuer.discover('https://proxy.sram.surf.nl/');
     console.log('Discovered issuer %s %O', sramIssuer.issuer, sramIssuer.metadata, code_verifier);
 
@@ -83,6 +83,7 @@ export class LoginController {
       resource: 'https://sram-auth-poc.pondersource.net',
       code_challenge,
       code_challenge_method: 'S256',
+      state,
     });
   }
 
@@ -95,7 +96,7 @@ export class LoginController {
     console.log("Getting Google OIDC URL");
     const googleOAuthUrl = await this.generateGoogleOAuthUrl(code_verifier);
     console.log("Getting SRAM OIDC URL");
-    const sramOAuthUrl = await this.generateSramOAuthUrl(code_verifier);
+    const sramOAuthUrl = await this.generateSramOAuthUrl(code_verifier, `${req.query.client_id}:${req.query.ticket}`);
     console.log("Done getting OIDC URLs");
     console.log('storing code_verifier in cookie!', code_verifier);
     const expiresAt = new DateDuration("1h");
