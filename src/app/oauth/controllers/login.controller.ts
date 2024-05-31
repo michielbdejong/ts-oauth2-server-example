@@ -89,7 +89,7 @@ export class LoginController {
   @Get()
   @Render("login")
   async index(@Req() req: Request, @Res() res: Response) {
-    await this.oauth.validateAuthorizationRequest(requestFromExpress(req));
+    // await this.oauth.validateAuthorizationRequest(requestFromExpress(req));
     const code_verifier = generators.codeVerifier();
     console.log('generated code_verifier', code_verifier);
     console.log("Getting Google OIDC URL");
@@ -121,7 +121,7 @@ export class LoginController {
     @Res({ passthrough: true }) res: Response,
     @Body() body: LoginBody,
   ) {
-    await this.oauth.validateAuthorizationRequest(req);
+    // await this.oauth.validateAuthorizationRequest(req);
 
     const { email, password } = body;
     let user: User;
