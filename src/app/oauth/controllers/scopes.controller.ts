@@ -47,13 +47,12 @@ export class ScopesController {
     @Res({ passthrough: true }) res: Response,
     @Body() body: ScopesBody,
   ) {
-    const clientId = req.query.client_id as string;
-    const ticket = req.query.ticket as string;
+    const clientId = req.cookies.client_id as string;
+    const ticket = req.cookies.ticket as string;
     const scopes = body.accept.split(" ");
     console.log("Updating ticket", clientId, ticket, scopes);
     updateTicket(clientId, ticket, scopes);
     console.log('updating ticket, now redirecting to result controller');
-    const [_, query] = req.url.split("?");
-    res.status(HttpStatus.FOUND).redirect(`/api/result?${query}`);
+    res.status(HttpStatus.FOUND).redirect(`/api/result`);
   }
 }

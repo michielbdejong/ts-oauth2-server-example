@@ -7,6 +7,7 @@ import {
 } from "@jmondi/oauth2-server/express";
 
 import { AuthorizationServerService } from "../services/authorization_server.service.js";
+import { DateDuration } from "@jmondi/date-duration";
 
 @Controller("front")
 export class FrontController {
@@ -17,25 +18,39 @@ export class FrontController {
     const request = requestFromExpress(req);
 
     const user = req.user;
-    const [_, params] = req.url.split("?");
+    const expiresAt = new DateDuration("1d");
+    const clientId = req.cookies.client_id || req.query.client_id;
+    const ticket = req.cookies.ticket || req.query.ticket;
+    res.cookie("client_id", clientId, {
+      secure: true,
+      httpOnly: true,
+      sameSite: "strict",
+      expires: expiresAt.endDate,
+    });
+    res.cookie("ticket", ticket, {
+      secure: true,
+      httpOnly: true,
+      sameSite: "strict",
+      expires: expiresAt.endDate,
+    });
 
     try {
 
       // Redirect the user to login if they are not logged in yet.
       if (!user) {
-        res.status(302).redirect(`/api/login?${params}`);
+        res.status(302).redirect(`/api/login`);
         return;
       }
 
       // Redirect the user to scopes if they have not reviewed the client's authorization request yet.
       // TODO: add ticket support to scopes endpoint
       if (typeof req.cookies.accept !== "string") {
-        res.status(302).redirect(`/api/scopes?${params}`);
+        res.status(302).redirect(`/api/scopes`);
         return;
       }
 
       // Redirect the user to the result page, where this flow will end.
-      res.status(302).redirect(`/api/result?${params}`);
+      res.status(302).redirect(`/api/result`);
     } catch (e) {
       handleExpressError(e, res);
     }
