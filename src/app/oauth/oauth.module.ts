@@ -15,6 +15,7 @@ import { RegisterController } from "./controllers/register.controller.js";
 import { TicketController } from "./controllers/ticket.controller.js";
 import { FrontController } from "./controllers/front.controller.js";
 import { ResultController } from "./controllers/result.controller.js";
+import { RregController } from "./controllers/rreg.controller.js";
 
 @Module({
   imports: [PrismaModule],
@@ -26,6 +27,7 @@ import { ResultController } from "./controllers/result.controller.js";
     LoginController,
     OidcController,
     RegisterController,
+    RregController,
     TicketController,
     FrontController,
     ResultController,
