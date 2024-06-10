@@ -34,10 +34,14 @@ export class ScopesController {
   @Render("scopes")
   async index(@Req() req: Request, @Res() res: Response) {
     // await this.oauth.validateAuthorizationRequest(requestFromExpress(req));
-
+    const scopeRequested = req.query.resource;
     return {
       csrfToken: req.csrfToken(),
-      scopes: await this.prisma.oAuthScope.findMany(),
+      scopes: await this.prisma.oAuthScope.findUnique({
+        where: {
+          id: scopeRequested as string
+        }
+      }),
     };
   }
 
