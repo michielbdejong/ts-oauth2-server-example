@@ -41,6 +41,10 @@ export class FrontController {
         res.status(302).redirect(`/api/login`);
         return;
       }
+      if (!req.query.wayg) {
+        res.status(302).redirect(`/api/wayg`);
+        return;
+      }
 
       if (!req.query.resource) {
         res.status(302).redirect(`https://research-drive-poc.pondersource.net/index.php/apps/tokenbaseddav`);

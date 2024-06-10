@@ -12,11 +12,14 @@ export function checkTicket(clientId: string, ticket: string): boolean {
 }
 
 export function updateTicket(clientId: string, ticket: string, scopes: string[]): void {
+  console.log(`updateTicket`, { clientId, ticket, scopes });
   if (!tickets[clientId]) {
-    throw new Error('No tickets found for this client');
+    console.log(tickets);
+    throw new Error(`No tickets found for client "${clientId}"`);
   }
   if (!tickets[clientId][ticket]) {
-    throw new Error('Ticket not found for this client');
+    console.log(tickets);
+    throw new Error(`Ticket not found for client "${clientId}`);
   }
   tickets[clientId][ticket].scopes = scopes;
   tickets[clientId][ticket].done = true;

@@ -16,6 +16,7 @@ import { TicketController } from "./controllers/ticket.controller.js";
 import { FrontController } from "./controllers/front.controller.js";
 import { ResultController } from "./controllers/result.controller.js";
 import { RregController } from "./controllers/rreg.controller.js";
+import { WaygController } from "./controllers/wayg.controller.js";
 
 @Module({
   imports: [PrismaModule],
@@ -31,6 +32,7 @@ import { RregController } from "./controllers/rreg.controller.js";
     TicketController,
     FrontController,
     ResultController,
+    WaygController,
   ],
   providers: [
     MyCustomJwtService.register("super-secret"),

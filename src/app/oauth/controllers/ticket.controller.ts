@@ -48,9 +48,10 @@ export class TicketController {
           id: {
             equals: body.clientId,
           },
-          secret: {
-            equals: body.clientSecret,
-          },
+          // FIXME:
+          // secret: {
+          //   equals: body.clientSecret,
+          // },
         },
       });
     } catch (e) {

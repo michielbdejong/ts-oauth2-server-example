@@ -1,0 +1,37 @@
+{% extends "layouts/index.njk" %}
+
+{% block main %}
+  <h1>Where Are You Going?</h1>
+  <div>
+    <ul>
+      <li><a href="/api/front{{ query }}">research-drive-poc</a></li>
+      <li>somewhere else ... </li>
+    </ul>
+  </div>
+{% endblock %}
+
+{% block styles %}
+  <style>
+    html {
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    .button {
+      background-color: tomato;
+      color: white;
+      padding: 0.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 4px;
+    }
+
+    label {
+      display: block;
+    }
+
+    fieldset {
+      padding: 0;
+      border: none;
+    }
+  </style>
+{% endblock %}
