@@ -8,6 +8,7 @@ export function checkTicket(clientId: string, ticket: string): boolean {
     console.log('storing ticket', clientId, ticket);
     tickets[clientId][ticket] = { done: false };
   }
+  console.log(tickets);
   return tickets[clientId][ticket].done;
 }
 
