@@ -23,8 +23,6 @@ export class TicketBody {
   @IsString()
   clientId: string;
   @IsString()
-  clientSecret: string;
-  @IsString()
   ticket: string;
 }
 
